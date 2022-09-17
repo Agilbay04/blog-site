@@ -53,8 +53,8 @@
                                         <td><?= $row["nama"]; ?></td>
                                         <td><?= date("d/m/Y H:i", strtotime($row["created_at"])); ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-edit<?= $row["id"]; ?>" title="edit data"><i class="fas fa-edit"></i></button>
-                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-del<?= $row["id"]; ?>" title="hapus data"><i class="fas fa-trash"></i></button>
+                                            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-edit<?= $row["post_id"]; ?>" title="edit data"><i class="fas fa-edit"></i></button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-del<?= $row["post_id"]; ?>" title="hapus data"><i class="fas fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -94,19 +94,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/post/save" method="post">
+            <form action="/post/save" method="post" enctype="multipart/form-data">
+                <?= csrf_field(); ?>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="judul">Judul</label>
-                                <input type="text" class="form-control" name="judul" id="judul" placeholder="Masukkan judul">
+                                <input type="text" class="form-control" name="judul" id="judul" placeholder="Masukkan judul" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="kategori">Kategori</label>
-                                <select name="kategori" id="kategori" class="form-control">
+                                <select name="kategori" id="kategori" class="form-control" required>
                                     <option value="" selected disabled>-- kategori --</option>
                                     <?php foreach ($dt_ktg as $row) : ?>
                                         <option value="<?= $row["id"]; ?>"><?= $row["kategori"]; ?></option>
@@ -117,7 +118,7 @@
                     </div>
                     <div class="form-group">
                         <label for="isi">Isi</label>
-                        <textarea name="isi" class="form-control" id="isi" cols="30" rows="10" placeholder="Masukkan isi"></textarea>
+                        <textarea name="isi" class="form-control" id="isi" cols="30" rows="10" placeholder="Masukkan isi" required></textarea>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -125,7 +126,7 @@
                                 <label for="gambar">Gambar</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="gambar" id="gambar">
+                                        <input type="file" class="custom-file-input" name="gambar" id="gambar" required>
                                         <label class="custom-file-label" for="gambar">Pilih file</label>
                                     </div>
                                 </div>
@@ -146,9 +147,9 @@
 <!-- /.End Modal Tambah Data -->
 
 <?php foreach ($dt_post as $row) : ?>
-    <!-- Modal Tambah Data -->
-    <div class="modal fade" id="modal-edit<?= $row["id"]; ?>">
-        <div class="modal-dialog">
+    <!-- Modal Edit Data -->
+    <div class="modal fade" id="modal-edit<?= $row["post_id"]; ?>">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit <?= $title; ?></h4>
@@ -156,12 +157,50 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/kategori/update" method="post">
+                <form action="/post/update" method="post" enctype="multipart/form-data">
+                    <?= csrf_field(); ?>
                     <div class="modal-body">
-                        <input type="hidden" name="id" value="<?= $row["id"]; ?>">
+                        <input type="hidden" name="id" value="<?= $row["post_id"]; ?>">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="judul">Judul</label>
+                                    <input type="text" class="form-control" name="judul" id="judul" value="<?= $row["judul"]; ?>" placeholder="Masukkan judul" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="kategori">Kategori</label>
+                                    <select name="kategori" id="kategori" class="form-control" required>
+                                        <option value="" selected disabled>-- kategori --</option>
+                                        <?php foreach ($dt_ktg as $ktg) : ?>
+                                            <option value="<?= $ktg["id"]; ?>" <?= $ktg["id"] == $row["kategori_id"] ? "selected" : ""; ?>><?= $ktg["kategori"]; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <label for="kategori">Kategori</label>
-                            <input type="text" class="form-control" name="kategori" id="kategori" value="<?= $row["judul"]; ?>" placeholder="Masukkan kategori">
+                            <label for="isi">Isi</label>
+                            <textarea name="isi" class="form-control" id="isi" cols="30" rows="10" placeholder="Masukkan isi" required><?= $row["isi"]; ?></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="/dist/img/<?= $row["gambar"]; ?>" class="img img-fluid" alt="<?= $row["gambar"]; ?>">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gambar">Ubah gambar?</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="gambar" id="gambar">
+                                            <label class="custom-file-label" for="gambar">Pilih file jika ingin ubah gambar</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -174,10 +213,10 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    <!-- /.End Modal Tambah Data -->
+    <!-- /.End Modal Edit Data -->
 
     <!-- Modal Hapus Data -->
-    <div class="modal fade" id="modal-del<?= $row["id"]; ?>">
+    <div class="modal fade" id="modal-del<?= $row["post_id"]; ?>">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -186,9 +225,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/kategori/delete" method="post">
+                <form action="/post/delete" method="post">
+                    <?= csrf_field(); ?>
                     <div class="modal-body">
-                        <input type="hidden" name="id" value="<?= $row["id"]; ?>">
+                        <input type="hidden" name="id" value="<?= $row["post_id"]; ?>">
                         Apakah anda yakin ingin menghapus data <?= $row["judul"]; ?>
                     </div>
                     <div class="modal-footer justify-content-between">

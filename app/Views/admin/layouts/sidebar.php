@@ -10,10 +10,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <img src="dist/img/default.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">admin</a>
+                <a href="#" class="d-block"><?= session('nama'); ?></a>
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="/" class="nav-link <?= service('uri')->getSegment(1) == "" ? "active" : ""; ?>">
+                    <a href="/dashboard" class="nav-link <?= service('uri')->getSegment(1) == "dashboard" ? "active" : ""; ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -43,16 +43,16 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item <?= 
-                    service('uri')->getSegment(1) == "admin" || 
-                    service('uri')->getSegment(1) == "kategori" ||
-                    service('uri')->getSegment(1) == "post" ? "menu-open" : ""; 
-                ?>">
-                    <a href="#" class="nav-link <?= 
-                    service('uri')->getSegment(1) == "admin" || 
-                    service('uri')->getSegment(1) == "kategori" ||
-                    service('uri')->getSegment(1) == "post" ? "active" : ""; 
-                ?>">
+                <li class="nav-item <?=
+                                    service('uri')->getSegment(1) == "admin" ||
+                                        service('uri')->getSegment(1) == "kategori" ||
+                                        service('uri')->getSegment(1) == "post" ? "menu-open" : "";
+                                    ?>">
+                    <a href="#" class="nav-link <?=
+                                                service('uri')->getSegment(1) == "admin" ||
+                                                    service('uri')->getSegment(1) == "kategori" ||
+                                                    service('uri')->getSegment(1) == "post" ? "active" : "";
+                                                ?>">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Master Data
@@ -79,6 +79,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item bg-danger">
+                    <a href="/logout" class="nav-link <?= service('uri')->getSegment(1) == "" ? "active" : ""; ?>">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </a>
                 </li>
             </ul>
         </nav>

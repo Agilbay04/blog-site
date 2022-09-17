@@ -39,18 +39,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    $no = 1;
-                                    foreach ($dt_ktg as $row) : 
+                                <?php
+                                $no = 1;
+                                foreach ($dt_ktg as $row) :
                                 ?>
-                                <tr>
-                                    <td><?= $no++; ?></td>
-                                    <td><?= $row["kategori"]; ?></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-edit<?= $row["id"]; ?>" title="edit data"><i class="fas fa-edit"></i></button>
-                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-del<?= $row["id"]; ?>" title="hapus data"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>    
+                                    <tr>
+                                        <td><?= $no++; ?></td>
+                                        <td><?= $row["kategori"]; ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-edit<?= $row["id"]; ?>" title="edit data"><i class="fas fa-edit"></i></button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-del<?= $row["id"]; ?>" title="hapus data"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                             <tfoot>
@@ -86,16 +86,17 @@
                 </button>
             </div>
             <form action="/kategori/save" method="post">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Masukkan kategori">
+                <?= csrf_field(); ?>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="kategori">Kategori</label>
+                        <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Masukkan kategori" required>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal <i class="fas fa-times"></i></button>
-                <button type="submit" class="btn btn-primary">Simpan <i class="fas fa-save"></i></button>
-            </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal <i class="fas fa-times"></i></button>
+                    <button type="submit" class="btn btn-primary">Simpan <i class="fas fa-save"></i></button>
+                </div>
             </form>
         </div>
         <!-- /.modal-content -->
@@ -105,61 +106,63 @@
 <!-- /.End Modal Tambah Data -->
 
 <?php foreach ($dt_ktg as $row) : ?>
-<!-- Modal Tambah Data -->
-<div class="modal fade" id="modal-edit<?= $row["id"]; ?>">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Edit <?= $title; ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="/kategori/update" method="post">
-            <div class="modal-body">
-                <input type="hidden"  name="id" value="<?= $row["id"]; ?>">
-                <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <input type="text" class="form-control" name="kategori" id="kategori" value="<?= $row["kategori"]; ?>" placeholder="Masukkan kategori">
+    <!-- Modal Tambah Data -->
+    <div class="modal fade" id="modal-edit<?= $row["id"]; ?>">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit <?= $title; ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <form action="/kategori/update" method="post">
+                    <?= csrf_field(); ?>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" value="<?= $row["id"]; ?>">
+                        <div class="form-group">
+                            <label for="kategori">Kategori</label>
+                            <input type="text" class="form-control" name="kategori" id="kategori" value="<?= $row["kategori"]; ?>" placeholder="Masukkan kategori" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal <i class="fas fa-times"></i></button>
+                        <button type="submit" class="btn btn-primary">Simpan <i class="fas fa-save"></i></button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal <i class="fas fa-times"></i></button>
-                <button type="submit" class="btn btn-primary">Simpan <i class="fas fa-save"></i></button>
-            </div>
-            </form>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.End Modal Tambah Data -->
+    <!-- /.End Modal Tambah Data -->
 
-<!-- Modal Hapus Data -->
-<div class="modal fade" id="modal-del<?= $row["id"]; ?>">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Hapus <?= $title; ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <!-- Modal Hapus Data -->
+    <div class="modal fade" id="modal-del<?= $row["id"]; ?>">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Hapus <?= $title; ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/kategori/delete" method="post">
+                    <?= csrf_field(); ?>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" value="<?= $row["id"]; ?>">
+                        Apakah anda yakin ingin menghapus data <?= $row["kategori"]; ?>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal <i class="fas fa-times"></i></button>
+                        <button type="submit" class="btn btn-danger">Hapus <i class="fas fa-trash"></i></button>
+                    </div>
+                </form>
             </div>
-            <form action="/kategori/delete" method="post">
-            <div class="modal-body">
-                <input type="hidden" name="id" value="<?= $row["id"]; ?>">
-                Apakah anda yakin ingin menghapus data <?= $row["kategori"]; ?>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal <i class="fas fa-times"></i></button>
-                <button type="submit" class="btn btn-danger">Hapus <i class="fas fa-trash"></i></button>
-            </div>
-            </form>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.End Modal Hapus Data -->
+    <!-- /.End Modal Hapus Data -->
 <?php endforeach; ?>
 <?= $this->endSection(); ?>
