@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2022 at 02:56 AM
+-- Generation Time: Sep 17, 2022 at 06:49 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -40,7 +40,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `nama`, `username`, `password`) VALUES
 (1, 'admin-01', 'admin', '$2y$10$gMkwMzyjWqfRf5VZSFlPgeuvy.omwRTRZ59NtuKsfZraTbpMrL3BG'),
-(2, 'admin-02', 'admin2', '$2y$10$gMkwMzyjWqfRf5VZSFlPgeuvy.omwRTRZ59NtuKsfZraTbpMrL3BG');
+(6, 'admin-02', 'admin2', '$2y$10$U1K4ko.mpKi5/dvmpvzpTeOVTnoZZfSPj5YjihFagp0JU9cXWzEPG');
 
 -- --------------------------------------------------------
 
@@ -70,15 +70,24 @@ INSERT INTO `kategori` (`id`, `kategori`) VALUES
 --
 
 CREATE TABLE `post` (
-  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL,
   `kategori_id` int(11) NOT NULL,
   `judul` varchar(100) NOT NULL,
   `gambar` varchar(225) NOT NULL,
   `isi` text NOT NULL,
   `slug` varchar(100) NOT NULL,
-  `created_at` datetime NOT NULL
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `post`
+--
+
+INSERT INTO `post` (`post_id`, `admin_id`, `kategori_id`, `judul`, `gambar`, `isi`, `slug`, `created_at`, `updated_at`) VALUES
+(2, 1, 2, 'Post Pertamaku', '1663426046_8135d0591948a491379b.jpg', 'lorem lorem', 'post-pertamaku', '2022-09-17 21:29:34', '2022-09-17 21:47:26'),
+(4, 1, 2, 'post kedua', '1663429619_b01b82976265a3b5f3de.jpg', 'asd', 'post-kedua', '2022-09-17 22:46:59', '2022-09-17 22:46:59');
 
 --
 -- Indexes for dumped tables
@@ -100,7 +109,7 @@ ALTER TABLE `kategori`
 -- Indexes for table `post`
 --
 ALTER TABLE `post`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`post_id`),
   ADD KEY `admin_id` (`admin_id`),
   ADD KEY `kategori_id` (`kategori_id`);
 
@@ -112,7 +121,7 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -124,7 +133,7 @@ ALTER TABLE `kategori`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
